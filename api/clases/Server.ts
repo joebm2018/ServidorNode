@@ -1,4 +1,5 @@
 import express,{Request,Response} from 'express';
+import { conexion } from '../configuracion/sequelize';
 
 export class Servidor{
     public app:express.Application;
@@ -11,6 +12,9 @@ export class Servidor{
     start(){
         this.app.listen(this.puerto,()=>{
             console.log("Servidor Corriendo en el puerto "+ this.puerto);
+            conexion.sync({force:true}).then(()=>{
+                console.log("Base de Datos creada Correctamente");                
+            })
         })
     }
     configurarRutas(){
